@@ -1,4 +1,7 @@
 node_modules
 dist
 logger/*
+public/*
+
 .env*
+!.env.example
