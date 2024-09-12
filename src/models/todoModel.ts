@@ -17,4 +17,4 @@ interface ITodo extends Document {
 }
 
 // Typescript variables
-export type TTodos = ITodo;
+export type TTodo = ITodo;
