@@ -8,9 +8,9 @@ export default class BaseService {
   }
 
   // Find all records
-  async findAll(model: any, filterObj = {}, sortObj = {}, skip = 0, limit = 0) {
+  async findAll(filterObj = {}, sortObj = {}, skip = 0, limit = 0) {
     try {
-      return await model.find(filterObj).sort(sortObj).skip(skip).limit(limit);
+      return await this.model.find(filterObj).sort(sortObj).skip(skip).limit(limit);
     } catch (err) {
       logInfo.error('Failed to fetch records Error: ' + JSON.stringify(err));
       throw err;
@@ -23,6 +23,16 @@ export default class BaseService {
       return await this.model.findById(id);      
     } catch (err) {
       logInfo.error('Failed to fetch record by ID: ' + id + ' Error: ' + JSON.stringify(err));
+      throw err;
+    }
+  }
+
+  // Find the count of records
+  async count(filterObj ={}){
+    try {
+      return await this.model.find(filterObj).countDocuments();
+    } catch (err) {
+      logInfo.error('Failed to count records Error: ' + JSON.stringify(err));
       throw err;
     }
   }

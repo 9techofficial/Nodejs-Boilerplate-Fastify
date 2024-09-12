@@ -48,14 +48,14 @@ export default class BaseController {
 
       // calculate pagination values
       const skip = (page - 1) * limit;
-      const total = await this.model.find(filterObj).countDocuments();
+      const total = await this.services.count(filterObj);
       const pages = Math.ceil(total / limit);
 
       // check if page is out of range
       if (page > pages) return reply.status(404).send({ error: 'Page not found' });
 
       // return paginated records
-      const records = await this.services.findAll(this.model, filterObj, sortObj, skip, limit);
+      const records = await this.services.findAll(filterObj, sortObj, skip, limit);
       reply.send({ records, pagination: { total, page, pages, limit } });
     } catch (err) {
       apiError.error('Failed to fetch records from path: ' + request.url + ' Error: ' + JSON.stringify(err));
