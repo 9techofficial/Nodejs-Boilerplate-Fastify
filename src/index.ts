@@ -11,8 +11,8 @@ dotenv.config({ path: `.env.${nodeEnv}` });
 // implement fastify
 const app = fastify({ logger: false });
 
-// Load routes
-routes(app);
+// Register routes with '/api' prefix
+app.register(routes, { prefix: '/api' });
 
 (async () => {
   try {
