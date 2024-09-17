@@ -1,6 +1,6 @@
 import BaseController from '../framework/baseController';
-import { TodoModel } from '../models/todoModel';
 import TodoService from '../services/todoService';
+import { TodoModel } from '../models/todoModel';
 
 class TodoController extends BaseController {
   constructor() {

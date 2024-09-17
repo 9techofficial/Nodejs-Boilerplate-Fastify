@@ -1,15 +1,20 @@
-import { FastifyInstance, FastifyPluginCallback, FastifyPluginOptions } from 'fastify';
+import { FastifyInstance } from 'fastify';
+import { login, register } from '../controllers/authController';
 import baseRoutes from '../framework/baseRoute';
+import authRoutes from './authRoutes';
 
-const routes: FastifyPluginCallback = (app: FastifyInstance, opts: FastifyPluginOptions, done) => {
+export default async function routes(app: FastifyInstance) {
+  // authentication routes
+  app.post('/register', register);
+  app.post('/login', login);
+
   // single route  
   app.get('/', async (request, reply) => { reply.send({ hello: 'world' }); });
 
-  // CRUD routes  
+  // CRUD routes
+  baseRoutes(app, 'category', 'categoryController');  
   baseRoutes(app, 'todo', 'todoController');
 
-  // Call done to finish registering routes
-  done();
-};
-
-export { routes };
+  // Authentication routes
+  await authRoutes(app);
+}

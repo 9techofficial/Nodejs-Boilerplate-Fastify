@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
 import fastify from 'fastify';
-import { routes } from './routes/routes';
 import { connectDB } from './utilities/db';
 import { logInfo } from './utilities/logger';
+import routes from './routes/routes';
 
 // Load the appropriate .env file based on NODE_ENV
 const nodeEnv = process.env.NODE_ENV || 'development';

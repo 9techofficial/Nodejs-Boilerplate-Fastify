@@ -41,20 +41,21 @@ export default new ${moduleNameCap}Service();`;
 const modelTemplate: string = `
 import mongoose, { Schema, Document } from 'mongoose';
 
+// Typescript variables
+export type T${moduleNameCap} = {
+  title: string;
+  deletedAt?: Date;
+};
+
+// Define interface
+interface I${moduleNameCap} extends Document, T${moduleNameCap} { }
+
 // Build Schema
 const ${moduleNameCap}Schema: Schema = new Schema({
   title: { type: String, required: true },
   deletedAt: { type: Date, required: false }
 }, { timestamps: true });
-export const ${moduleNameCap}Model = mongoose.model('${moduleNameCap}', ${moduleNameCap}Schema);
-
-// Define interface
-interface I${moduleNameCap} extends Document {
-  title: string;
-}
-
-// Typescript variables
-export type T${moduleNameCap} = I${moduleNameCap};`;
+export const ${moduleNameCap}Model = mongoose.model<I${moduleNameCap}>('${moduleNameCap}', ${moduleNameCap}Schema);`;
 
 // Ensure directories exist
 [controllerDir, serviceDir, modelDir].forEach((dir: string) => {

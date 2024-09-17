@@ -51,12 +51,12 @@ export default class BaseController {
       const total = await this.services.count(filterObj);
       const pages = Math.ceil(total / limit);
 
-      // check if page is out of range
-      if (page > pages) return reply.status(404).send({ error: 'Page not found' });
+      // check if page is out of range      
+      if (total > 0 && page > pages) return reply.status(404).send({ error: 'Page not found' });
 
       // return paginated records
-      const records = await this.services.findAll(filterObj, sortObj, skip, limit);
-      reply.send({ records, pagination: { total, page, pages, limit } });
+      const data = await this.services.findAll(filterObj, sortObj, skip, limit);
+      reply.send({ data, pagination: { total, page, pages, limit } });
     } catch (err) {
       apiError.error('Failed to fetch records from path: ' + request.url + ' Error: ' + JSON.stringify(err));
       reply.status(500).send({ error: 'Failed to fetch records' });
@@ -68,9 +68,9 @@ export default class BaseController {
     const { id } = request.params as { id: string };
     apiLog.info('Fetching record by ID: ' + id + ' from path: ' + request.url);
     try {
-      const record = await this.services.findOne(id);
-      if (record) {
-        reply.send(record);
+      const data = await this.services.findById(id);
+      if (data) {
+        reply.send({ data });
       } else {
         reply.status(404).send({ error: 'Record not found' });
       }
@@ -85,7 +85,7 @@ export default class BaseController {
     apiLog.info('Creating a new record from path: ' + request.url);
     try {
       const newRecord = await this.services.create(request.body);
-      reply.status(201).send(newRecord);
+      reply.status(201).send({ data: newRecord });
     } catch (err) {
       apiError.error('Failed to create a new record from path: ' + request.url + ' Error: ' + JSON.stringify(err));
       reply.status(500).send({ error: 'Failed to create record' });
@@ -99,7 +99,7 @@ export default class BaseController {
     try {
       const updatedRecord = await this.services.update(id, request.body);
       if (updatedRecord) {
-        reply.send(updatedRecord);
+        reply.send({ data: updatedRecord });
       } else {
         reply.status(404).send({ error: 'Record not found' });
       }
@@ -116,7 +116,7 @@ export default class BaseController {
     try {
       const deletedRecord = await this.services.delete(id);
       if (deletedRecord) {
-        reply.send({ message: 'Record deleted' });
+        reply.send({ message: 'Record deleted successfully' });
       } else {
         reply.status(404).send({ error: 'Record not found' });
       }
