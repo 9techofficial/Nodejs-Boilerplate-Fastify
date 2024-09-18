@@ -12,7 +12,6 @@ export default async function routes(app: FastifyInstance) {
   app.get('/', async (request, reply) => { reply.send({ hello: 'world' }); });
 
   // CRUD routes
-  baseRoutes(app, 'category', 'categoryController');  
   baseRoutes(app, 'todo', 'todoController');
 
   // Authentication routes
