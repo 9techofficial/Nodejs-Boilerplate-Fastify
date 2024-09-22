@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import fastify from 'fastify';
+import cors from '@fastify/cors';
 import { connectDB } from './utilities/db';
 import { logInfo } from './utilities/logger';
 import routes from './routes/routes';
@@ -10,6 +11,11 @@ dotenv.config({ path: `.env.${nodeEnv}` });
 
 // implement fastify
 const app = fastify({ logger: false });
+app.register(cors, {
+  origin: process.env.APP_URL ?? '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+});
 
 // Register routes with '/api' prefix
 app.register(routes, { prefix: '/api' });
