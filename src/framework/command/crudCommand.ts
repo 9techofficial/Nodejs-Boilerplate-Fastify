@@ -1,3 +1,5 @@
+import { logInfo } from "../../utilities/logger";
+
 const fs = require('fs');
 const path = require('path');
 
@@ -67,12 +69,12 @@ const createFile = (dir: string, fileName: string, template: string): void => {
   const filePath: string = path.join(dir, fileName);
 
   if (fs.existsSync(filePath)) {
-    console.error(`${filePath} already exists.`);
+    logInfo.error(`${filePath} already exists.`);
     return;
   }
 
   fs.writeFileSync(filePath, template);
-  console.log(`${filePath} created.`);
+  logInfo.info(`${filePath} created.`);
 };
 
 // Create the files for the controller, service, and model
@@ -93,7 +95,7 @@ fs.readFile(routesFilePath, 'utf8', (err: NodeJS.ErrnoException | null, data: st
 
   // Check if the line already exists to prevent duplicates
   if (data.includes(routeLine)) {
-    console.log('Route already exists in the routes file.');
+    logInfo.info('Route already exists in the routes file.');
     return;
   }
 

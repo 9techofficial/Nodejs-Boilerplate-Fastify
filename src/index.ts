@@ -23,10 +23,10 @@ app.register(routes, { prefix: '/api' });
 (async () => {
   try {
     await connectDB();
-    await app.listen({ port: Number(process.env.PORT) || 3000 });
-    logInfo.log('info', `Server running in ${process.env.NODE_ENV} mode at http://localhost:${process.env.PORT}`);
+    await app.listen({ port: Number(process.env.PORT) || 4000 });
+    logInfo.info(`Server running in ${process.env.NODE_ENV} mode at http://localhost:${process.env.PORT}`);
   } catch (error) {
-    logInfo.log('error', JSON.stringify(error));
+    logInfo.error(JSON.stringify(error));
     process.exit(1);
   }
 })();
